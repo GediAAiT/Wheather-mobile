@@ -1,20 +1,16 @@
 import 'dart:convert';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import '../models/country.dart';
 import '../models/forecast.dart';
 import '../models/weather.dart';
 
 class ApiService {
-  // Override for a deployed backend: flutter run --dart-define=API_BASE_URL=https://host/api
-  static const String _override = String.fromEnvironment('API_BASE_URL');
-
-  static final String baseUrl = () {
-    if (_override.isNotEmpty) return _override;
-    if (!kIsWeb && Platform.isAndroid) return 'http://10.0.2.2:8081/api';
-    return 'http://localhost:8081/api';
-  }();
+  // Defaults to the deployed backend so release APKs work on a real phone.
+  // Point at a local server: flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8081/api
+  static const String baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'https://weather-backend-fawn-kappa.vercel.app/api',
+  );
 
   Future<List<Country>> getCountries(String lang) async {
     final res = await http.get(Uri.parse('$baseUrl/countries?lang=$lang'));

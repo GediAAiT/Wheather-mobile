@@ -76,7 +76,8 @@ class _RootShellState extends State<RootShell> {
           ),
         ],
       ),
-      bottomNavigationBar: wide ? null : _GlassNavBar(index: _index, onTap: _go),
+      bottomNavigationBar:
+          wide ? null : _GlassNavBar(index: _index, onTap: _go),
     );
   }
 }
@@ -92,8 +93,7 @@ class _NavItem {
 const _items = [
   _NavItem(Icons.home_outlined, Icons.home_rounded, 'tab.home'),
   _NavItem(Icons.search_rounded, Icons.search_rounded, 'tab.search'),
-  _NavItem(
-      Icons.calendar_month_outlined, Icons.calendar_month_rounded,
+  _NavItem(Icons.calendar_month_outlined, Icons.calendar_month_rounded,
       'tab.forecast'),
   _NavItem(Icons.settings_outlined, Icons.settings_rounded, 'tab.settings'),
 ];
@@ -119,8 +119,7 @@ class _GlassNavBar extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(34),
               color: const Color(0xFF0B1026).withValues(alpha: 0.55),
-              border:
-                  Border.all(color: Colors.white.withValues(alpha: 0.12)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
             ),
             child: Row(
               children: [
@@ -161,58 +160,61 @@ class _BarButton extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOutBack,
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: active
-                  ? accent.withValues(alpha: 0.18)
-                  : Colors.transparent,
-              // Keep a shadow in both states (transparent when inactive) so
-              // the list length stays constant. Otherwise BoxDecoration.lerp
-              // interpolates toward an empty list and the easeOutBack overshoot
-              // drives blurRadius negative, tripping a non-negative assertion.
-              boxShadow: [
-                BoxShadow(
-                  color: active
-                      ? accent.withValues(alpha: 0.25)
-                      : Colors.transparent,
-                  blurRadius: 16,
-                  spreadRadius: -2,
-                ),
-              ],
-            ),
-            child: AnimatedScale(
-              scale: active ? 1.12 : 1.0,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOutBack,
-              child: Icon(
-                active ? item.activeIcon : item.icon,
-                size: 24,
-                color:
-                    active ? accent : Colors.white.withValues(alpha: 0.55),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: active
+                    ? accent.withValues(alpha: 0.18)
+                    : Colors.transparent,
+                // Keep a shadow in both states (transparent when inactive) so
+                // the list length stays constant. Otherwise BoxDecoration.lerp
+                // interpolates toward an empty list and the easeOutBack overshoot
+                // drives blurRadius negative, tripping a non-negative assertion.
+                boxShadow: [
+                  BoxShadow(
+                    color: active
+                        ? accent.withValues(alpha: 0.25)
+                        : Colors.transparent,
+                    blurRadius: 16,
+                    spreadRadius: -2,
+                  ),
+                ],
+              ),
+              child: AnimatedScale(
+                scale: active ? 1.12 : 1.0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOutBack,
+                child: Icon(
+                  active ? item.activeIcon : item.icon,
+                  size: 24,
+                  color: active ? accent : Colors.white.withValues(alpha: 0.55),
+                ),
               ),
             ),
-          ),
-          AnimatedSize(
-            duration: const Duration(milliseconds: 250),
-            child: active
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Text(label,
-                        style: const TextStyle(
-                            color: accent,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700)),
-                  )
-                : const SizedBox(height: 0),
-          ),
-        ],
+            AnimatedSize(
+              duration: const Duration(milliseconds: 250),
+              child: active
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(label,
+                          style: const TextStyle(
+                              color: accent,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700)),
+                    )
+                  : const SizedBox(height: 0),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -243,7 +245,8 @@ class _NavRail extends StatelessWidget {
           children: [
             for (var i = 0; i < _items.length; i++)
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 4),
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => onTap(i),
