@@ -7,7 +7,11 @@ import '../models/forecast.dart';
 import '../models/weather.dart';
 
 class ApiService {
+  // Override for a deployed backend: flutter run --dart-define=API_BASE_URL=https://host/api
+  static const String _override = String.fromEnvironment('API_BASE_URL');
+
   static final String baseUrl = () {
+    if (_override.isNotEmpty) return _override;
     if (!kIsWeb && Platform.isAndroid) return 'http://10.0.2.2:8081/api';
     return 'http://localhost:8081/api';
   }();
